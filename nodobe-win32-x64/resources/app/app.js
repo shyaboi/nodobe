@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, Menu, Tray } = require("electron");
 const path = require("path");
 require("electron-reload")(__dirname);
 // ./main.js
@@ -365,7 +365,8 @@ function createWindow() {
         }
       });
     }, 2000);
-    // const cortanakillSwitch = setInterval(() => {
+
+    // const cortanakillSwitch = () => {
     //   isRunning("SearchUI.exe", (status) => {
     //     console.log(status); // true|false
     //     if (status === true) {
@@ -376,40 +377,52 @@ function createWindow() {
     //         console.log("Cortana died")
   
     //       });
-    //       console.log("Cortana running........Adobeeeeeeeeeeeeeeeeeeeeeeeeeee!!!!!!!!!!!!!!!!!!!");
+    //       console.log("Cortana running........mikrosofffffffffffffffftyttttttttttttttttttttttttttttt!!!!!!!!!!!!!!!!!!!");
     //     }
     //   });
-    // }, 500);
+    // };
+    // setInterval(() => {
+      
+    //   cortanakillSwitch()
+    // }, 50);
 
-    acrokillSwitch;
-    CCXProcesskillSwitch;
-    AdobeIPCBrokerkillSwitch
-    AdobeCEFHelperkillSwitch
-    AcrobatNotificationClientkillSwitch
-    AdobeCollabSynckillSwitch
-    CoreSynckillSwitch
-    CCLibrarykillSwitch
-    AdobeDesktopServicekillSwitch
-    CRWindowsClientServicekillSwitch
+    
+    
+    
     // RuntimeBrokerkillSwitch
-    CreativeCloudHelperkillSwitch
-    AdobeNotificationClientkillSwitch
-    AdobeNotificationHelperkillSwitch
-    AcroCEFkillSwitch
-    AcrobatkillSwitch
-    CCkillSwitch
-    // cortanakillSwitch
+    
+    
+    
+    
+    
+    
+    // acrokillSwitch;
+    // CCXProcesskillSwitch;
+    // AdobeIPCBrokerkillSwitch
+    // AdobeCEFHelperkillSwitch
+    // AcrobatNotificationClientkillSwitch
+    // AdobeCollabSynckillSwitch
+    // CoreSynckillSwitch
+    // CCLibrarykillSwitch
+    // AdobeDesktopServicekillSwitch
+    // CRWindowsClientServicekillSwitch
+    // CreativeCloudHelperkillSwitch
+    // AdobeNotificationClientkillSwitch
+    // AdobeNotificationHelperkillSwitch
+    // AcroCEFkillSwitch
+    // AcrobatkillSwitch
+    // CCkillSwitch
   }
  
   const mainWindow = new BrowserWindow({
     title: "Shyaboi",
-    icon: __dirname + "./sinbad.png",
+    icon: __dirname + "./nodobe.png",
     // frame: false,
     // titleBarStyle: 'customButtonsOnHover',
-    transparent: true,
-    frame: false,
-    width: 700,
-    height: 777,
+    // transparent: true,
+    // frame: false,
+    width: 725,
+    height: 815,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     },
@@ -417,6 +430,40 @@ function createWindow() {
 
   // and load the index.html of the app.
   mainWindow.loadFile("index.html");
+
+  let appIcon = null
+  app.whenReady().then(() => {
+    appIcon = new Tray('./nodobe.png')
+    const  contextMenu = Menu.buildFromTemplate([
+      { label: 'Show App', click:  function(){
+          mainWindow.show();
+      } },
+      { label: 'Quit', click:  function(){
+          app.isQuiting = true;
+          app.quit();
+      } }
+    ]);
+  
+    // Make a change to the context menu
+    contextMenu.items[1].checked = false
+  
+    // Call this again for Linux because we modified the context menu
+    appIcon.setContextMenu(contextMenu)
+  })
+  mainWindow.on('minimize',function(event){
+    event.preventDefault();
+    mainWindow.hide();
+});
+
+mainWindow.on('close', function (event) {
+    if(!app.isQuiting){
+        event.preventDefault();
+        mainWindow.hide();
+    }
+
+    return false;
+});
+
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
